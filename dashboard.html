@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0D6EFD">
+<title>HRMS Dashboard</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D6EFD'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+
+<div class="dashboard">
+
+    <!-- ======================= SIDEBAR ======================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+
+        <div class="sidebar-head">
+            <div class="logo">HR<span>i</span>MS</div>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <nav class="side-nav">
+
+            <a class="active" aria-current="page">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a>
+                <i data-lucide="users"></i>
+                <span>Employees</span>
+            </a>
+
+            <a>
+                <i data-lucide="calendar-check"></i>
+                <span>Attendance</span>
+            </a>
+
+            <a>
+                <i data-lucide="calendar-days"></i>
+                <span>Leave</span>
+            </a>
+
+            <a>
+                <i data-lucide="wallet"></i>
+                <span>Payroll</span>
+            </a>
+
+            <a>
+                <i data-lucide="user-plus"></i>
+                <span>Recruitment</span>
+            </a>
+
+            <a>
+                <i data-lucide="gauge"></i>
+                <span>Performance</span>
+            </a>
+
+            <a>
+                <i data-lucide="user"></i>
+                <span>My Team</span>
+            </a>
+
+            <a>
+                <i data-lucide="file-text"></i>
+                <span>Documents</span>
+            </a>
+
+            <a>
+                <i data-lucide="package"></i>
+                <span>Assets</span>
+            </a>
+
+            <a>
+                <i data-lucide="receipt"></i>
+                <span>Expenses</span>
+            </a>
+
+            <a>
+                <i data-lucide="clipboard-list"></i>
+                <span>Tasks</span>
+            </a>
+
+            <a>
+                <i data-lucide="trending-up"></i>
+                <span>Reports</span>
+            </a>
+
+            <a>
+                <i data-lucide="megaphone"></i>
+                <span>Announcements</span>
+            </a>
+
+            <a>
+                <i data-lucide="headphones"></i>
+                <span>Helpdesk</span>
+            </a>
+
+            <a>
+                <i data-lucide="settings"></i>
+                <span>Settings</span>
+            </a>
+
+            <a id="logoutBtn" class="nav-logout">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+        <div class="leave-balance">
+
+            <div class="lb-head">
+                <h4>Leave Balance</h4>
+                <a class="link">View All</a>
+            </div>
+
+            <div id="leaveBalanceList">
+
+            <div class="lb-row">
+                <span class="lb-dot" style="--c:#3B82F6"></span>
+                <span class="lb-name">Casual Leave</span>
+                <b>12</b>
+            </div>
+
+            <div class="lb-row">
+                <span class="lb-dot" style="--c:#8B5CF6"></span>
+                <span class="lb-name">Sick Leave</span>
+                <b>08</b>
+            </div>
+
+            <div class="lb-row">
+                <span class="lb-dot" style="--c:#F59E0B"></span>
+                <span class="lb-name">Earned Leave</span>
+                <b>15</b>
+            </div>
+
+            <div class="lb-row">
+                <span class="lb-dot" style="--c:#EC4899"></span>
+                <span class="lb-name">Comp Off</span>
+                <b>04</b>
+            </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- ======================= MAIN AREA ======================= -->
+    <div class="main-area">
+
+        <header class="topbar">
+
+            <button class="hamburger icon-btn" id="menuBtn" aria-label="Open menu" aria-controls="sidebar">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="brand-mini">HR<span>i</span>MS</div>
+
+            <div class="search">
+                <i data-lucide="search"></i>
+                <input type="text" id="globalSearch" placeholder="Search employees, modules... (Ctrl + /)" aria-label="Search">
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="icon-btn" aria-label="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="badge" id="notifCount">3</span>
+                </button>
+
+                <button class="icon-btn" aria-label="Messages">
+                    <i data-lucide="message-square"></i>
+                    <span class="badge" id="msgCount">1</span>
+                </button>
+
+                <span class="topbar-divider" aria-hidden="true"></span>
+
+                <button class="profile-chip" aria-label="Account menu">
+                    <span class="avatar avatar-sm" id="topbarAvatar">NJ</span>
+                    <span class="pc-text">
+                        <b id="topbarName">Nitin Jangra</b>
+                        <small>Employee</small>
+                    </span>
+                    <i data-lucide="chevron-down" class="pc-chevron"></i>
+                </button>
+
+            </div>
+
+        </header>
+
+        <main class="content" id="main">
+
+            <!-- Greeting + Punch clock -->
+            <section class="greeting-row reveal">
+
+                <div class="greet-text">
+                    <h1 id="welcomeName">Good Morning, Nitin! 👋</h1>
+                    <p class="greet-date">
+                        <i data-lucide="calendar-days"></i>
+                        <span id="currentDate">Thursday, 12 June 2025</span>
+                    </p>
+                </div>
+
+                <div class="punch-actions">
+                    <button class="btn btn-primary" id="checkInBtn">
+                        <i data-lucide="log-in"></i>
+                        <span class="pulse-dot" aria-hidden="true"></span>
+                        Check In
+                    </button>
+                    <button class="btn btn-ghost" id="checkOutBtn">
+                        <i data-lucide="log-out"></i>
+                        Check Out
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Profile + Today's Attendance -->
+            <section class="hero-grid">
+
+                <article class="card profile-card reveal" style="--d:.06s">
+
+                    <div class="profile-top">
+
+                        <div class="avatar avatar-xl" id="profileAvatar">
+                            NJ
+                            <span class="online-dot" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="profile-id">
+                            <h3><span id="profileName">Nitin Jangra</span> <i data-lucide="badge-check" class="verified"></i></h3>
+                            <p class="role" id="profileRole">UX Designer</p>
+                            <span class="chip" id="profileDept">Design Department</span>
+                        </div>
+
+                    </div>
+
+                    <ul class="profile-meta">
+
+                        <li>
+                            <i data-lucide="credit-card"></i>
+                            <span id="employeeId">Employee ID: --</span>
+                        </li>
+
+                        <li>
+                            <i data-lucide="mail"></i>
+                            <span id="profileEmail">nitin.jangra@company.com</span>
+                        </li>
+
+                        <li>
+                            <i data-lucide="phone"></i>
+                            <span id="profilePhone">+91 98765 43210</span>
+                        </li>
+
+                        <li>
+                            <i data-lucide="map-pin"></i>
+                            <span id="profileLocation">Gurgaon, Haryana, India</span>
+                        </li>
+
+                    </ul>
+
+                </article>
+
+                <article class="attendance-card reveal" style="--d:.12s">
+
+                    <div class="att-head">
+                        <h3>Today's Attendance</h3>
+                        <span class="pill-present" id="presentPill">Present</span>
+                    </div>
+
+                    <div class="att-grid">
+
+                        <div class="att-cell">
+                            <p class="att-label">Check In</p>
+                            <p class="att-time" id="attCheckIn">09:05 <small>AM</small></p>
+                            <p class="att-sub" id="attCheckInDate">12 June 2025</p>
+                        </div>
+
+                        <span class="att-divider" aria-hidden="true"></span>
+
+                        <div class="att-cell">
+                            <p class="att-label">Check Out</p>
+                            <p class="att-time dim" id="attCheckOut">--:-- <small>--</small></p>
+                            <p class="att-sub" id="attCheckOutSub">Not Checked Out</p>
+                        </div>
+
+                    </div>
+
+                    <div class="att-total">
+                        <p class="att-label">Total Working Time</p>
+                        <p class="att-work"><i data-lucide="clock"></i> <span id="attWorkTime">07h 35m</span></p>
+                        <p class="att-break">Break: <b id="attBreak">00h 45m</b></p>
+                    </div>
+
+                    <i data-lucide="calendar-clock" class="att-watermark" aria-hidden="true"></i>
+
+                </article>
+
+            </section>
+
+            <!-- KPI Stats -->
+            <section class="stats-grid">
+
+                <article class="card stat reveal" style="--d:.05s">
+                    <span class="icon-chip c-blue"><i data-lucide="calendar-check"></i></span>
+                    <h3 class="stat-num" id="statPresentDays" data-count="10">10</h3>
+                    <p class="stat-label">Present Days<br><small>This Month</small></p>
+                </article>
+
+                <article class="card stat reveal" style="--d:.1s">
+                    <span class="icon-chip c-purple"><i data-lucide="plane"></i></span>
+                    <h3 class="stat-num" id="statLeaves" data-count="5">5</h3>
+                    <p class="stat-label">Total Leaves<br><small>This Month</small></p>
+                </article>
+
+                <article class="card stat reveal" style="--d:.15s">
+                    <span class="icon-chip c-orange"><i data-lucide="clock"></i></span>
+                    <h3 class="stat-num" id="statOvertime">03h 20m</h3>
+                    <p class="stat-label">Overtime<br><small>This Month</small></p>
+                </article>
+
+                <article class="card stat reveal" style="--d:.2s">
+                    <span class="icon-chip c-pink"><i data-lucide="clipboard-list"></i></span>
+                    <h3 class="stat-num" id="statTasks" data-count="7" data-pad="2">07</h3>
+                    <p class="stat-label">Pending Tasks<br><small>Tasks</small></p>
+                </article>
+
+            </section>
+
+            <!-- Quick Actions + Upcoming Holidays -->
+            <section class="mid-grid">
+
+                <article class="card quick-actions reveal">
+
+                    <div class="card-head">
+                        <h4>Quick Actions</h4>
+                    </div>
+
+                    <div class="qa-grid">
+
+                        <button class="qa">
+                            <span class="icon-chip c-blue"><i data-lucide="calendar-plus"></i></span>
+                            <span class="qa-label">Apply Leave</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-purple"><i data-lucide="fingerprint"></i></span>
+                            <span class="qa-label">My Attendance</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-green"><i data-lucide="file-text"></i></span>
+                            <span class="qa-label">Payslips</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-teal"><i data-lucide="folder"></i></span>
+                            <span class="qa-label">My Documents</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-blue"><i data-lucide="users"></i></span>
+                            <span class="qa-label">My Team</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-orange"><i data-lucide="clipboard-list"></i></span>
+                            <span class="qa-label">Tasks</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-pink"><i data-lucide="megaphone"></i></span>
+                            <span class="qa-label">Announcements</span>
+                        </button>
+
+                        <button class="qa">
+                            <span class="icon-chip c-purple"><i data-lucide="headphones"></i></span>
+                            <span class="qa-label">Helpdesk</span>
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <article class="card holidays reveal" style="--d:.08s">
+
+                    <div class="card-head">
+                        <h4>Upcoming Holidays</h4>
+                        <a class="link">View Calendar</a>
+                    </div>
+
+                    <div class="holiday-list" id="holidayList">
+
+                    <div class="holiday-row">
+                        <span class="icon-chip c-green"><i data-lucide="calendar-check"></i></span>
+                        <div class="h-info">
+                            <b>Guru Purnima</b>
+                            <small>10 Jul 2025</small>
+                        </div>
+                        <span class="h-chip">In 28 days</span>
+                    </div>
+
+                    <div class="holiday-row">
+                        <span class="icon-chip c-green"><i data-lucide="calendar-check"></i></span>
+                        <div class="h-info">
+                            <b>Independence Day</b>
+                            <small>15 Aug 2025</small>
+                        </div>
+                        <span class="h-chip">In 64 days</span>
+                    </div>
+
+                    <div class="holiday-row">
+                        <span class="icon-chip c-green"><i data-lucide="calendar-check"></i></span>
+                        <div class="h-info">
+                            <b>Raksha Bandhan</b>
+                            <small>19 Aug 2025</small>
+                        </div>
+                        <span class="h-chip">In 68 days</span>
+                    </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- Leave Summary + Announcements + Activity -->
+            <section class="bottom-grid">
+
+                <article class="card leave-summary reveal">
+
+                    <div class="card-head">
+                        <h4>Leave Summary</h4>
+                    </div>
+
+                    <div class="donut-flex">
+
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 140 140" role="img" aria-label="Leave summary donut chart">
+                                <circle cx="70" cy="70" r="54" class="donut-track"/>
+                                <g transform="rotate(-90 70 70)">
+                                    <circle cx="70" cy="70" r="54" class="donut-seg"
+                                            stroke="#3B82F6"
+                                            stroke-dasharray="101.4 237.9" stroke-dashoffset="0"
+                                            style="--dash:101.4;--gap:237.9;--dd:.15s"/>
+                                    <circle cx="70" cy="70" r="54" class="donut-seg"
+                                            stroke="#8B5CF6"
+                                            stroke-dasharray="66.6 272.7" stroke-dashoffset="-104.4"
+                                            style="--dash:66.6;--gap:272.7;--dd:.35s"/>
+                                    <circle cx="70" cy="70" r="54" class="donut-seg"
+                                            stroke="#F59E0B"
+                                            stroke-dasharray="127.5 211.8" stroke-dashoffset="-174"
+                                            style="--dash:127.5;--gap:211.8;--dd:.55s"/>
+                                    <circle cx="70" cy="70" r="54" class="donut-seg"
+                                            stroke="#EC4899"
+                                            stroke-dasharray="31.8 307.5" stroke-dashoffset="-304.5"
+                                            style="--dash:31.8;--gap:307.5;--dd:.75s"/>
+                                </g>
+                            </svg>
+                            <div class="donut-center">
+                                <b id="donutTotal">39</b>
+                                <small>Total</small>
+                            </div>
+                        </div>
+
+                        <div class="donut-legend" id="leaveLegend">
+
+                            <div class="lg-row">
+                                <span class="lg-dot" style="--c:#3B82F6"></span>
+                                <span class="lg-name">Casual Leave</span>
+                                <b>12 Days</b>
+                            </div>
+
+                            <div class="lg-row">
+                                <span class="lg-dot" style="--c:#8B5CF6"></span>
+                                <span class="lg-name">Sick Leave</span>
+                                <b>08 Days</b>
+                            </div>
+
+                            <div class="lg-row">
+                                <span class="lg-dot" style="--c:#F59E0B"></span>
+                                <span class="lg-name">Earned Leave</span>
+                                <b>15 Days</b>
+                            </div>
+
+                            <div class="lg-row">
+                                <span class="lg-dot" style="--c:#EC4899"></span>
+                                <span class="lg-name">Comp Off</span>
+                                <b>04 Days</b>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="card announcements reveal" style="--d:.08s">
+
+                    <div class="card-head">
+                        <h4>Latest Announcements</h4>
+                        <a class="link">View All</a>
+                    </div>
+
+                    <div class="feed-list" id="announcementList">
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-blue"><i data-lucide="megaphone"></i></span>
+                        <div class="feed-info">
+                            <b>Team Outing</b>
+                            <p>We are excited to announce a team outing on 25th June 2025.</p>
+                        </div>
+                        <small class="feed-time">11 Jun 2025</small>
+                    </div>
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-green"><i data-lucide="shield-check"></i></span>
+                        <div class="feed-info">
+                            <b>Policy Update</b>
+                            <p>Please review the updated leave policy effective from July 2025.</p>
+                        </div>
+                        <small class="feed-time">09 Jun 2025</small>
+                    </div>
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-orange"><i data-lucide="gift"></i></span>
+                        <div class="feed-info">
+                            <b>Happy Birthday!</b>
+                            <p>Wish you a very happy birthday and a wonderful year ahead!</p>
+                        </div>
+                        <small class="feed-time">08 Jun 2025</small>
+                    </div>
+
+                    </div>
+
+                </article>
+
+                <article class="card activity reveal" style="--d:.16s">
+
+                    <div class="card-head">
+                        <h4>Recent Activity</h4>
+                        <a class="link">View All</a>
+                    </div>
+
+                    <div class="feed-list" id="activityList">
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-green"><i data-lucide="check"></i></span>
+                        <div class="feed-info">
+                            <p>Leave request for <b>14 Jun 2025</b> has been approved.</p>
+                        </div>
+                        <small class="feed-time">2 days ago</small>
+                    </div>
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-blue"><i data-lucide="file-text"></i></span>
+                        <div class="feed-info">
+                            <p>Your payslip for <b>May 2025</b> is now available to download.</p>
+                        </div>
+                        <small class="feed-time">1 day ago</small>
+                    </div>
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-orange"><i data-lucide="clock"></i></span>
+                        <div class="feed-info">
+                            <p>Overtime request for <b>10 Jun 2025</b> approved.</p>
+                        </div>
+                        <small class="feed-time">2 days ago</small>
+                    </div>
+
+                    <div class="feed-item">
+                        <span class="icon-chip c-purple"><i data-lucide="check"></i></span>
+                        <div class="feed-info">
+                            <p>Task <b>"UI Design Review"</b> marked as completed.</p>
+                        </div>
+                        <small class="feed-time">2 days ago</small>
+                    </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+<!-- ======================= MOBILE BOTTOM NAV ======================= -->
+<nav class="bottom-nav" aria-label="Quick navigation">
+
+    <a class="active" aria-current="page">
+        <i data-lucide="home"></i>
+        <span>Home</span>
+    </a>
+
+    <a>
+        <i data-lucide="calendar-check"></i>
+        <span>Attendance</span>
+    </a>
+
+    <a>
+        <i data-lucide="users"></i>
+        <span>My Team</span>
+    </a>
+
+    <a>
+        <i data-lucide="message-square"></i>
+        <span>Messages</span>
+        <span class="badge">1</span>
+    </a>
+
+    <a>
+        <i data-lucide="user"></i>
+        <span>Profile</span>
+    </a>
+
+</nav>
+
+<script>
+if (window.lucide) lucide.createIcons();
+
+document.documentElement.classList.add('js');
+
+/* ---------- Live date ---------- */
+(function () {
+    var el = document.getElementById('currentDate');
+    if (!el) return;
+    try {
+        el.textContent = new Date().toLocaleDateString('en-GB', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        });
+    } catch (e) { /* keep static fallback */ }
+})();
+
+/* ---------- Sidebar drawer (tablet + mobile) ---------- */
+(function () {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('drawerOverlay');
+    var openBtn = document.getElementById('menuBtn');
+    var closeBtn = document.getElementById('sidebarClose');
+    if (!sidebar || !overlay) return;
+
+    function open() {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        document.body.classList.add('no-scroll');
+    }
+    function close() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.classList.remove('no-scroll');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+    });
+})();
+
+/* ---------- Scroll reveal ---------- */
+(function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('in-view'); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+})();
+
+/* ---------- Donut sweep ---------- */
+(function () {
+    var donut = document.querySelector('.donut');
+    if (!donut) return;
+    if (!('IntersectionObserver' in window)) {
+        donut.classList.add('animate');
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                donut.classList.add('animate');
+                io.disconnect();
+            }
+        });
+    }, { threshold: 0.4 });
+    io.observe(donut);
+})();
+
+/* ---------- Stat count-up ---------- */
+(function () {
+    var reduce = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    var nums = document.querySelectorAll('[data-count]');
+    nums.forEach(function (el) {
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        var pad = parseInt(el.getAttribute('data-pad') || '0', 10);
+        if (isNaN(target)) return;
+
+        var duration = 1100, start = null;
+        function fmt(v) {
+            var s = String(Math.round(v));
+            while (pad && s.length < pad) s = '0' + s;
+            return s;
+        }
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / duration, 1);
+            var eased = 1 - Math.pow(1 - p, 3); /* ease-out cubic */
+            el.textContent = fmt(target * eased);
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="dashboard.js"></script>
+
+</body>
+</html>

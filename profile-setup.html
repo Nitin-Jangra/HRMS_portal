@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0D6EFD">
+<title>Complete Employee Profile · HRiMS</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D6EFD'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<link rel="stylesheet" href="profile-setup.css">
+</head>
+
+<body>
+
+<a class="skip-link" href="#profileForm">Skip to form</a>
+
+<div class="bg-decor" aria-hidden="true"></div>
+
+<div class="page">
+
+    <!-- ======================= TOP BAR ======================= -->
+    <header class="topbar reveal">
+
+        <a class="brand" href="dashboard.html" aria-label="HRiMS home">
+            <span class="brand-mark"><i data-lucide="fingerprint"></i></span>
+            <span class="brand-name">HR<i>i</i>MS</span>
+        </a>
+
+        <a class="btn btn-ghost btn-sm" href="dashboard.html">
+            <i data-lucide="arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+
+    </header>
+
+    <!-- ======================= HERO ======================= -->
+    <section class="setup-hero">
+
+        <div class="hero-copy reveal" style="--d:.05s">
+            <span class="hero-eyebrow">
+                <i data-lucide="user-plus"></i>
+                Employee Onboarding
+            </span>
+
+            <h1>Complete Your <span class="grad-text">Employee Profile</span></h1>
+
+            <p class="hero-sub">
+                Finish your HRMS onboarding so HR, payroll and your new team
+                have the right details from day one.
+            </p>
+
+            <div class="hero-meta">
+                <span class="meta-chip"><i data-lucide="clock"></i>Takes about 3 minutes</span>
+                <span class="meta-chip"><i data-lucide="shield-check"></i>Private &amp; secure</span>
+                <span class="meta-chip"><i data-lucide="save"></i>Editable anytime</span>
+            </div>
+        </div>
+
+        <div class="progress-card reveal" style="--d:.12s">
+            <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%"  stop-color="#2F82FF"/>
+                            <stop offset="55%" stop-color="#0D6EFD"/>
+                            <stop offset="100%" stop-color="#0846B8"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="ring-bg"  cx="60" cy="60" r="52"/>
+                    <circle class="ring-bar" id="ringBar" cx="60" cy="60" r="52"/>
+                </svg>
+                <div class="ring-center">
+                    <strong id="progressPct">0%</strong>
+                    <span>complete</span>
+                </div>
+            </div>
+            <div class="progress-meta">
+                <span class="progress-title">Profile Setup</span>
+                <span class="progress-count" id="progressCount">0 of 17 fields filled</span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ======================= MAIN GRID ======================= -->
+    <div class="setup-grid">
+
+        <form id="profileForm" novalidate>
+
+            <!-- ============ 1 · PERSONAL ============ -->
+            <section class="section reveal" id="sec-personal" style="--d:.05s">
+                <div class="section-head">
+                    <span class="section-chip c-blue"><i data-lucide="user"></i></span>
+                    <div class="section-title">
+                        <h2>Personal Information</h2>
+                        <p>Your legal identity as it appears on official records.</p>
+                    </div>
+                    <span class="section-fill" id="fill-personal">0/6</span>
+                </div>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label for="firstName">First Name <em class="req">*</em></label>
+                        <input id="firstName" name="first_name" required maxlength="60"
+                               placeholder="e.g. Aarav" autocomplete="given-name">
+                        <small class="field-err">First name is required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="lastName">Last Name <em class="req">*</em></label>
+                        <input id="lastName" name="last_name" required maxlength="60"
+                               placeholder="e.g. Sharma" autocomplete="family-name">
+                        <small class="field-err">Last name is required.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="dob">Date of Birth <span class="opt">(optional)</span></label>
+                        <input type="date" id="dob" name="dob" autocomplete="bday">
+                    </div>
+
+                    <div class="field">
+                        <label for="gender">Gender <span class="opt">(optional)</span></label>
+                        <select id="gender" name="gender">
+                            <option value="">Select</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="bloodGroup">Blood Group <span class="opt">(optional)</span></label>
+                        <select id="bloodGroup" name="blood_group">
+                            <option value="">Select</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">Phone <span class="opt">(optional)</span></label>
+                        <input id="phone" name="phone" maxlength="20" inputmode="tel"
+                               placeholder="+91 9876543210" autocomplete="tel">
+                        <small class="field-err">Enter a valid phone number.</small>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ 2 · EMPLOYMENT ============ -->
+            <section class="section reveal" id="sec-employment" style="--d:.1s">
+                <div class="section-head">
+                    <span class="section-chip c-purple"><i data-lucide="briefcase"></i></span>
+                    <div class="section-title">
+                        <h2>Employment Information</h2>
+                        <p>Where you sit in the organisation.</p>
+                    </div>
+                    <span class="section-fill" id="fill-employment">0/4</span>
+                </div>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label for="department">Department <em class="req">*</em></label>
+                        <select id="department" name="department_id" required>
+                            <option value="">Select Department</option>
+                        </select>
+                        <small class="field-err" id="departmentErr">Please select your department.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="designation">Designation <span class="opt">(optional)</span></label>
+                        <input id="designation" name="designation" maxlength="80"
+                               placeholder="e.g. Senior UI Designer">
+                    </div>
+
+                    <div class="field">
+                        <label for="manager">Reporting Manager <span class="opt">(optional)</span></label>
+                        <select id="manager" name="manager_id">
+                            <option value="">Select Manager</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="joiningDate">Joining Date <span class="opt">(optional)</span></label>
+                        <input type="date" id="joiningDate" name="joining_date" autocomplete="off">
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ 3 · ADDRESS ============ -->
+            <section class="section reveal" id="sec-address" style="--d:.15s">
+                <div class="section-head">
+                    <span class="section-chip c-orange"><i data-lucide="map-pin"></i></span>
+                    <div class="section-title">
+                        <h2>Address</h2>
+                        <p>Used for payroll documents and courier deliveries.</p>
+                    </div>
+                    <span class="section-fill" id="fill-address">0/5</span>
+                </div>
+
+                <div class="grid">
+
+                    <div class="field full">
+                        <label for="address">Full Address <span class="opt">(optional)</span></label>
+                        <textarea id="address" name="address" rows="3" maxlength="300"
+                                  placeholder="House no, street, landmark…" autocomplete="street-address"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="city">City <span class="opt">(optional)</span></label>
+                        <input id="city" name="city" maxlength="60" placeholder="e.g. Mumbai" autocomplete="address-level2">
+                    </div>
+
+                    <div class="field">
+                        <label for="state">State <span class="opt">(optional)</span></label>
+                        <input id="state" name="state" maxlength="60" placeholder="e.g. Maharashtra" autocomplete="address-level1">
+                    </div>
+
+                    <div class="field">
+                        <label for="country">Country <span class="opt">(optional)</span></label>
+                        <input id="country" name="country" maxlength="60" placeholder="e.g. India" autocomplete="country-name">
+                    </div>
+
+                    <div class="field">
+                        <label for="pincode">Pincode <span class="opt">(optional)</span></label>
+                        <input id="pincode" name="pincode" maxlength="8" inputmode="numeric"
+                               placeholder="e.g. 400001" autocomplete="postal-code">
+                        <small class="field-err">Enter a valid pincode (5–6 digits).</small>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ 4 · EMERGENCY ============ -->
+            <section class="section reveal" id="sec-emergency" style="--d:.2s">
+                <div class="section-head">
+                    <span class="section-chip c-pink"><i data-lucide="phone"></i></span>
+                    <div class="section-title">
+                        <h2>Emergency Contact</h2>
+                        <p>Someone we can reach if we cannot reach you.</p>
+                    </div>
+                    <span class="section-fill" id="fill-emergency">0/2</span>
+                </div>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label for="emergencyName">Contact Name <span class="opt">(optional)</span></label>
+                        <input id="emergencyName" name="emergency_contact_name" maxlength="120"
+                               placeholder="e.g. Rohan Sharma">
+                    </div>
+
+                    <div class="field">
+                        <label for="emergencyPhone">Contact Phone <span class="opt">(optional)</span></label>
+                        <input id="emergencyPhone" name="emergency_contact_phone" maxlength="20" inputmode="tel"
+                               placeholder="+91 9812345678">
+                        <small class="field-err">Enter a valid phone number.</small>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ STICKY ACTION BAR ============ -->
+            <div class="form-footer reveal" style="--d:.25s">
+                <p class="form-note">
+                    <i data-lucide="lock"></i>
+                    <span>Your details are private — visible only to you and the HR team.</span>
+                </p>
+
+                <button type="submit" class="btn btn-primary btn-save" id="saveBtn">
+                    <span class="spinner"></span>
+                    <i data-lucide="check"></i>
+                    <span id="saveBtnLabel">Save Profile</span>
+                </button>
+            </div>
+
+        </form>
+
+        <!-- ============ SIDE COLUMN ============ -->
+        <aside class="side-col">
+
+            <div class="side-card steps-card reveal" style="--d:.15s">
+                <div class="side-head">
+                    <h3>Setup Steps</h3>
+                    <span class="side-chip" id="stepsDoneChip">0 of 4</span>
+                </div>
+
+                <ol class="steps-list">
+                    <li>
+                        <button type="button" class="step current" data-target="sec-personal">
+                            <span class="step-dot"><i data-lucide="check"></i><b class="step-num">1</b></span>
+                            <span class="step-label">Personal Information</span>
+                            <span class="step-count" id="stepCount-1">0/6</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="step" data-target="sec-employment">
+                            <span class="step-dot"><i data-lucide="check"></i><b class="step-num">2</b></span>
+                            <span class="step-label">Employment Information</span>
+                            <span class="step-count" id="stepCount-2">0/4</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="step" data-target="sec-address">
+                            <span class="step-dot"><i data-lucide="check"></i><b class="step-num">3</b></span>
+                            <span class="step-label">Address</span>
+                            <span class="step-count" id="stepCount-3">0/5</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="step" data-target="sec-emergency">
+                            <span class="step-dot"><i data-lucide="check"></i><b class="step-num">4</b></span>
+                            <span class="step-label">Emergency Contact</span>
+                            <span class="step-count" id="stepCount-4">0/2</span>
+                        </button>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="side-card tips-card reveal" style="--d:.2s">
+                <div class="side-head">
+                    <h3><i data-lucide="lightbulb"></i>Quick Tips</h3>
+                </div>
+
+                <ul class="tips-list">
+                    <li>Use your legal name as printed on your government ID.</li>
+                    <li>Double-check phone numbers — HR uses them for urgent alerts.</li>
+                    <li>Only the <em>*</em> fields are required; everything else can be added later.</li>
+                    <li>Details sync straight to your dashboard profile card.</li>
+                </ul>
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+<!-- Toast notifications -->
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script>
+if (window.lucide) lucide.createIcons();
+
+document.documentElement.classList.add('js');
+
+/* ---------- Scroll reveal ---------- */
+(function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('in-view'); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -4% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="profile-setup.js"></script>
+
+</body>
+</html>

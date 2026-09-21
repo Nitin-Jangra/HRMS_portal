@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRMS Workspace · One App for Everything</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hrms.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="side-brand">
+      <span class="brand-mark"><i data-lucide="fingerprint"></i></span>
+      <span class="brand-name">HR<i>i</i>MS</span>
+    </div>
+
+    <p class="side-label">Workspace</p>
+    <nav class="side-nav" id="sideNav">
+      <a href="#/dashboard" class="nav-item" data-route="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="#/attendance" class="nav-item" data-route="attendance"><i data-lucide="fingerprint"></i><span>Attendance</span></a>
+      <a href="#/leaves" class="nav-item" data-route="leaves"><i data-lucide="plane"></i><span>Leaves</span></a>
+      <a href="#/directory" class="nav-item" data-route="directory"><i data-lucide="users"></i><span>Directory</span></a>
+      <a href="#/tasks" class="nav-item" data-route="tasks"><i data-lucide="list-checks"></i><span>My Tasks</span></a>
+    </nav>
+
+    <p class="side-label">Company</p>
+    <nav class="side-nav">
+      <a href="#/holidays" class="nav-item" data-route="holidays"><i data-lucide="calendar-days"></i><span>Holidays</span></a>
+      <a href="#/announcements" class="nav-item" data-route="announcements"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+    </nav>
+
+    <p class="side-label">Account</p>
+    <nav class="side-nav">
+      <a href="#/profile" class="nav-item" data-route="profile"><i data-lucide="user-round"></i><span>My Profile</span></a>
+      <a href="#/settings" class="nav-item" data-route="settings"><i data-lucide="settings"></i><span>Settings</span></a>
+      <button class="nav-item nav-logout" data-action="logout"><i data-lucide="log-out"></i><span>Sign Out</span></button>
+    </nav>
+
+    <div class="side-card">
+      <div class="sc-icon"><i data-lucide="shield-check"></i></div>
+      <b id="sideDataMode">Demo workspace</b>
+      <span id="sideDataNote">Sample data — connect Supabase in supabase.js</span>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" data-action="close-sidebar"></div>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <header class="topbar">
+      <button class="icon-btn hamburger" id="hamburger" data-action="open-sidebar" aria-label="Open menu"><i data-lucide="menu"></i></button>
+
+      <div class="search-wrap" role="search">
+        <i data-lucide="search"></i>
+        <input type="text" id="globalSearch" placeholder="Search employees, pages…" autocomplete="off">
+        <kbd>Ctrl /</kbd>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="notifBtn" data-action="open-notifs" aria-label="Notifications">
+          <i data-lucide="bell"></i><span class="badge hidden" id="notifBadge">0</span>
+        </button>
+        <button class="icon-btn" id="msgBtn" data-action="open-msgs" aria-label="Messages">
+          <i data-lucide="mail"></i><span class="badge hidden" id="msgBadge">0</span>
+        </button>
+        <div class="profile-chip" id="profileChip" data-action="toggle-usermenu">
+          <span class="avatar sm" id="topbarAvatar">NJ</span>
+          <span class="pc-meta"><b id="topbarName">—</b><small id="topbarRole">—</small></span>
+          <i data-lucide="chevron-down"></i>
+          <div class="user-menu" id="userMenu">
+            <button data-action="goto-profile"><i data-lucide="user-round"></i> My Profile</button>
+            <button data-action="goto-settings"><i data-lucide="settings"></i> Settings</button>
+            <hr>
+            <button class="danger" data-action="logout"><i data-lucide="log-out"></i> Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="views" id="views">
+
+      <!-- ============ VIEW: DASHBOARD ============ -->
+      <section class="view" id="view-dashboard" data-view="dashboard">
+        <div class="greet-row">
+          <div>
+            <h1 id="greetTitle">Good morning!</h1>
+            <p class="greet-sub" id="greetDate">—</p>
+          </div>
+          <button class="btn-primary" data-action="goto-apply-leave"><i data-lucide="plane-takeoff"></i>Apply Leave</button>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card att-card">
+            <div class="att-watermark"><i data-lucide="fingerprint"></i></div>
+            <div class="att-head">
+              <div>
+                <p class="att-day" id="attDay">—</p>
+                <h3>Attendance</h3>
+              </div>
+              <span class="pill pill-absent js-att-pill">Not Checked In</span>
+            </div>
+            <div class="att-times">
+              <div class="att-cell">
+                <small>Check In</small>
+                <div class="att-time js-att-checkin dim">--:-- <small>--</small></div>
+                <span class="att-sub js-att-indate">—</span>
+              </div>
+              <span class="att-arrow"><i data-lucide="arrow-right"></i></span>
+              <div class="att-cell">
+                <small>Check Out</small>
+                <div class="att-time js-att-checkout dim">--:-- <small>--</small></div>
+                <span class="att-sub js-att-outsub">Not Checked Out</span>
+              </div>
+            </div>
+            <div class="att-nums">
+              <div><small>Working hours</small><b class="js-att-work">00h 00m</b></div>
+              <div><small>Break</small><b class="js-att-break">00h 45m</b></div>
+            </div>
+            <div class="punch-row">
+              <button class="btn-ghost-light js-punch-in" data-action="punch-in"><i data-lucide="log-in"></i><span class="spinner"></span><span class="btn-label">Check In</span></button>
+              <button class="btn-outline-light js-punch-out" data-action="punch-out" disabled><i data-lucide="log-out"></i><span class="spinner"></span><span class="btn-label">Check Out</span></button>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="card stat k-blue"><span class="st-ico"><i data-lucide="calendar-check"></i></span><div><b id="statPresentDays">0</b><small>Present days</small></div></div>
+            <div class="card stat k-purple"><span class="st-ico"><i data-lucide="plane"></i></span><div><b id="statLeaves">0</b><small>Leaves this month</small></div></div>
+            <div class="card stat k-orange"><span class="st-ico"><i data-lucide="clock-4"></i></span><div><b id="statOvertime">00h 00m</b><small>Overtime</small></div></div>
+            <div class="card stat k-pink"><span class="st-ico"><i data-lucide="list-todo"></i></span><div><b id="statTasks">00</b><small>Open tasks</small></div></div>
+          </div>
+
+          <div class="card quick-card">
+            <div class="card-head"><h3>Quick Actions</h3></div>
+            <div class="quick-grid">
+              <button class="qa" data-action="goto-attendance"><span class="qa-ico ic-blue"><i data-lucide="fingerprint"></i></span>Attendance</button>
+              <button class="qa" data-action="goto-apply-leave"><span class="qa-ico ic-purple"><i data-lucide="plane-takeoff"></i></span>Apply Leave</button>
+              <button class="qa" data-action="goto-tasks"><span class="qa-ico ic-orange"><i data-lucide="list-checks"></i></span>My Tasks</button>
+              <button class="qa" data-action="goto-directory"><span class="qa-ico ic-green"><i data-lucide="users"></i></span>Directory</button>
+              <button class="qa" data-action="goto-holidays"><span class="qa-ico ic-pink"><i data-lucide="calendar-days"></i></span>Holidays</button>
+              <button class="qa" data-action="goto-announcements"><span class="qa-ico ic-teal"><i data-lucide="megaphone"></i></span>Announcements</button>
+              <button class="qa" data-action="goto-profile"><span class="qa-ico ic-blue"><i data-lucide="user-round"></i></span>My Profile</button>
+              <button class="qa" data-action="goto-settings"><span class="qa-ico ic-purple"><i data-lucide="settings"></i></span>Settings</button>
+            </div>
+          </div>
+
+          <div class="card leave-card">
+            <div class="card-head"><h3>Leave Summary</h3><button class="link-btn" data-action="goto-leaves">View all</button></div>
+            <div class="donut-wrap">
+              <svg class="donut" viewBox="0 0 140 140" aria-hidden="true">
+                <circle class="donut-track" cx="70" cy="70" r="54"/>
+                <circle class="donut-seg" cx="70" cy="70" r="54" stroke="#3B82F6"/>
+                <circle class="donut-seg" cx="70" cy="70" r="54" stroke="#8B5CF6"/>
+                <circle class="donut-seg" cx="70" cy="70" r="54" stroke="#F59E0B"/>
+                <circle class="donut-seg" cx="70" cy="70" r="54" stroke="#EC4899"/>
+                <text x="70" y="66" class="donut-num" id="donutTotal">0</text>
+                <text x="70" y="82" class="donut-cap">days taken</text>
+              </svg>
+              <div class="legend" id="leaveLegend"></div>
+            </div>
+          </div>
+
+          <div class="card holiday-card">
+            <div class="card-head"><h3>Upcoming Holidays</h3><button class="link-btn" data-action="goto-holidays">All</button></div>
+            <div class="h-list" id="holidayList"></div>
+          </div>
+
+          <div class="card ann-card">
+            <div class="card-head"><h3>Latest Announcements</h3><button class="link-btn" data-action="goto-announcements">All</button></div>
+            <div class="a-list" id="annList"></div>
+          </div>
+
+          <div class="card act-card">
+            <div class="card-head"><h3>Recent Activity</h3></div>
+            <div class="act-list" id="activityList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: ATTENDANCE ============ -->
+      <section class="view" id="view-attendance" data-view="attendance">
+        <div class="view-head">
+          <div><h1>Attendance</h1><p>Punch in, review your month and track hours.</p></div>
+          <button class="btn-primary" data-action="punch-toggle"><i data-lucide="fingerprint"></i><span class="btn-label" id="punchToggleLabel">Check In</span></button>
+        </div>
+
+        <div class="att-stats">
+          <div class="card stat"><span class="st-ico ic-blue"><i data-lucide="calendar-check"></i></span><div><b id="attMonthPresent">0</b><small>Present this month</small></div></div>
+          <div class="card stat"><span class="st-ico ic-purple"><i data-lucide="plane"></i></span><div><b id="attMonthLeave">0</b><small>Days on leave</small></div></div>
+          <div class="card stat"><span class="st-ico ic-orange"><i data-lucide="timer"></i></span><div><b id="attMonthAvg">00h 00m</b><small>Avg working time</small></div></div>
+          <div class="card stat"><span class="st-ico ic-pink"><i data-lucide="flame"></i></span><div><b id="attStreak">0</b><small>Day streak</small></div></div>
+        </div>
+
+        <div class="att-grid">
+          <div class="card cal-card">
+            <div class="card-head">
+              <h3 id="calTitle">—</h3>
+              <div class="cal-nav">
+                <button class="icon-btn sm" data-action="cal-prev" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+                <button class="icon-btn sm" data-action="cal-next" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="calendar" id="attCalendar"></div>
+            <div class="cal-legend">
+              <span><i class="dot d-present"></i>Present</span>
+              <span><i class="dot d-leave"></i>On leave</span>
+              <span><i class="dot d-half"></i>Half / short</span>
+              <span><i class="dot d-future"></i>Upcoming</span>
+            </div>
+          </div>
+          <div class="card hist-card">
+            <div class="card-head"><h3>Recent Records</h3></div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Work</th><th>Status</th></tr></thead>
+                <tbody id="attHistory"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: LEAVES ============ -->
+      <section class="view" id="view-leaves" data-view="leaves">
+        <div class="view-head">
+          <div><h1>Leaves</h1><p>Check your balance, apply and track requests.</p></div>
+          <button class="btn-primary" data-action="open-leave"><i data-lucide="plus"></i>Apply Leave</button>
+        </div>
+        <div class="leave-balance" id="leaveCards"></div>
+        <div class="card req-card">
+          <div class="card-head">
+            <h3>My Requests</h3>
+            <div class="chip-row" id="leaveChips">
+              <button class="chip active" data-filter="all">All</button>
+              <button class="chip" data-filter="pending">Pending</button>
+              <button class="chip" data-filter="approved">Approved</button>
+              <button class="chip" data-filter="rejected">Rejected</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+              <tbody id="leaveTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: DIRECTORY ============ -->
+      <section class="view" id="view-directory" data-view="directory">
+        <div class="view-head">
+          <div><h1>Directory</h1><p id="dirCount">—</p></div>
+        </div>
+        <div class="dir-toolbar card">
+          <div class="search-wrap inner">
+            <i data-lucide="search"></i>
+            <input type="text" id="dirSearch" placeholder="Search by name or email…" autocomplete="off">
+          </div>
+          <select id="dirDept" class="select" aria-label="Filter by department"></select>
+        </div>
+        <div class="dir-grid" id="dirGrid"></div>
+      </section>
+
+      <!-- ============ VIEW: TASKS ============ -->
+      <section class="view" id="view-tasks" data-view="tasks">
+        <div class="view-head">
+          <div><h1>My Tasks</h1><p id="taskSummary">—</p></div>
+        </div>
+        <div class="card task-add">
+          <i data-lucide="pen-line"></i>
+          <input type="text" id="taskInput" placeholder="Add a task, e.g. Submit Q3 report…" autocomplete="off">
+          <input type="date" id="taskDue" class="select date-in" aria-label="Due date">
+          <button class="btn-primary" data-action="add-task"><i data-lucide="plus"></i>Add</button>
+        </div>
+        <div class="chip-row" id="taskChips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="pending">Pending</button>
+          <button class="chip" data-filter="completed">Completed</button>
+        </div>
+        <div class="task-list" id="taskList"></div>
+      </section>
+
+      <!-- ============ VIEW: HOLIDAYS ============ -->
+      <section class="view" id="view-holidays" data-view="holidays">
+        <div class="view-head">
+          <div><h1>Holidays</h1><p>Company calendar for the year ahead.</p></div>
+        </div>
+        <div class="holiday-hero card" id="nextHolidayCard"></div>
+        <div class="holiday-grid" id="holidayFull"></div>
+      </section>
+
+      <!-- ============ VIEW: ANNOUNCEMENTS ============ -->
+      <section class="view" id="view-announcements" data-view="announcements">
+        <div class="view-head">
+          <div><h1>Announcements</h1><p>Everything happening across the company.</p></div>
+        </div>
+        <div class="chip-row" id="annChips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="info">General</button>
+          <button class="chip" data-filter="policy">Policy</button>
+          <button class="chip" data-filter="event">Events</button>
+          <button class="chip" data-filter="birthday">Birthdays</button>
+        </div>
+        <div class="ann-feed" id="annFull"></div>
+      </section>
+
+      <!-- ============ VIEW: PROFILE ============ -->
+      <section class="view" id="view-profile" data-view="profile">
+        <div class="view-head">
+          <div><h1>My Profile</h1><p>Keep your details current — HR relies on them.</p></div>
+        </div>
+        <div class="profile-layout">
+          <div class="p-main">
+            <form id="profileForm" novalidate>
+              <div class="card p-sec" id="sec-personal">
+                <div class="section-head">
+                  <span class="sec-ico ic-blue"><i data-lucide="user-round"></i></span>
+                  <div><h3>Personal Details</h3><p>Your identity and contact basics</p></div>
+                  <span class="fill-chip" id="fill-personal">0/8</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field"><label for="firstName">First name <em>*</em></label><input id="firstName" autocomplete="given-name" required><small class="err"></small></div>
+                  <div class="field"><label for="lastName">Last name</label><input id="lastName" autocomplete="family-name"><small class="err"></small></div>
+                  <div class="field"><label for="dob">Date of birth</label><input id="dob" type="date"><small class="err"></small></div>
+                  <div class="field"><label for="gender">Gender</label><select id="gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select><small class="err"></small></div>
+                  <div class="field"><label for="bloodGroup">Blood group</label><select id="bloodGroup"><option value="">Select…</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select><small class="err"></small></div>
+                  <div class="field"><label for="phone">Phone <em>*</em></label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required><small class="err"></small></div>
+                  <div class="field span-2"><label for="pEmail">Email</label><input id="pEmail" type="email" autocomplete="email" readonly class="ro"><small class="err"></small></div>
+                </div>
+              </div>
+
+              <div class="card p-sec" id="sec-employment">
+                <div class="section-head">
+                  <span class="sec-ico ic-purple"><i data-lucide="briefcase"></i></span>
+                  <div><h3>Employment</h3><p>Role, reporting and joining info</p></div>
+                  <span class="fill-chip" id="fill-employment">0/4</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field"><label for="department">Department <em>*</em></label><select id="department" required><option value="">Loading…</option></select><small class="err"></small></div>
+                  <div class="field"><label for="designation">Designation</label><input id="designation" placeholder="e.g. Senior Developer"><small class="err"></small></div>
+                  <div class="field"><label for="manager">Reporting manager</label><select id="manager"><option value="">Loading…</option></select><small class="err"></small></div>
+                  <div class="field"><label for="joiningDate">Joining date</label><input id="joiningDate" type="date"><small class="err"></small></div>
+                </div>
+              </div>
+
+              <div class="card p-sec" id="sec-address">
+                <div class="section-head">
+                  <span class="sec-ico ic-orange"><i data-lucide="map-pin"></i></span>
+                  <div><h3>Address</h3><p>Where you currently live</p></div>
+                  <span class="fill-chip" id="fill-address">0/6</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field span-2"><label for="address">Street address</label><input id="address" autocomplete="street-address"><small class="err"></small></div>
+                  <div class="field"><label for="city">City</label><input id="city"><small class="err"></small></div>
+                  <div class="field"><label for="state">State</label><input id="state"><small class="err"></small></div>
+                  <div class="field"><label for="country">Country</label><input id="country" value="India"><small class="err"></small></div>
+                  <div class="field"><label for="pincode">PIN code</label><input id="pincode" inputmode="numeric"><small class="err"></small></div>
+                </div>
+              </div>
+
+              <div class="card p-sec" id="sec-emergency">
+                <div class="section-head">
+                  <span class="sec-ico ic-pink"><i data-lucide="life-buoy"></i></span>
+                  <div><h3>Emergency Contact</h3><p>Who we should call if we can't reach you</p></div>
+                  <span class="fill-chip" id="fill-emergency">0/2</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field"><label for="emergencyName">Contact name</label><input id="emergencyName"><small class="err"></small></div>
+                  <div class="field"><label for="emergencyPhone">Contact phone</label><input id="emergencyPhone" type="tel" inputmode="tel"><small class="err"></small></div>
+                </div>
+              </div>
+
+              <div class="p-actions">
+                <span class="privacy-note"><i data-lucide="lock"></i>Saved securely to your HRMS database</span>
+                <button type="submit" class="btn-primary" id="saveBtn"><span class="spinner"></span><span id="saveBtnLabel">Save Profile</span></button>
+              </div>
+            </form>
+          </div>
+          <aside class="p-side">
+            <div class="card ring-card">
+              <div class="ring-wrap">
+                <svg viewBox="0 0 120 120" class="ring">
+                  <circle cx="60" cy="60" r="52" class="ring-track"/>
+                  <circle cx="60" cy="60" r="52" class="ring-bar" id="ringBar"/>
+                </svg>
+                <div class="ring-center"><b id="progressPct">0%</b></div>
+              </div>
+              <p class="ring-cap"><b id="progressCount">0 of 0</b> fields filled</p>
+            </div>
+            <div class="card tip-card">
+              <div class="card-head"><h3>Quick Tips</h3></div>
+              <ul class="tips">
+                <li><i data-lucide="check"></i>Required fields are marked with <em>*</em></li>
+                <li><i data-lucide="check"></i>Your manager and department power leave routing</li>
+                <li><i data-lucide="check"></i>Emergency contact is used only for urgent situations</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ VIEW: SETTINGS ============ -->
+      <section class="view" id="view-settings" data-view="settings">
+        <div class="view-head">
+          <div><h1>Settings</h1><p>Account, preferences and data controls.</p></div>
+        </div>
+        <div class="settings-grid">
+          <div class="card set-card">
+            <div class="card-head"><h3>Account</h3></div>
+            <div class="set-account">
+              <span class="avatar lg" id="setAvatar">—</span>
+              <div><b id="setAccountName">—</b><small id="setAccountEmail">—</small><span class="role-chip" id="setAccountRole">—</span></div>
+            </div>
+          </div>
+          <div class="card set-card">
+            <div class="card-head"><h3>Notifications</h3></div>
+            <label class="switch-row">Email me leave approvals<input type="checkbox" id="prefEmail" checked><span class="switch"></span></label>
+            <label class="switch-row">In-app reminders to punch in<input type="checkbox" id="prefPunch" checked><span class="switch"></span></label>
+            <label class="switch-row">Weekly summary digest<input type="checkbox" id="prefDigest"><span class="switch"></span></label>
+          </div>
+          <div class="card set-card">
+            <div class="card-head"><h3>Data Source</h3></div>
+            <div class="set-data">
+              <span class="mode-pill" id="setDataMode">—</span>
+              <p id="setDataNote">—</p>
+              <button class="btn-outline" data-action="reload-data"><i data-lucide="refresh-cw"></i>Reload data</button>
+            </div>
+          </div>
+          <div class="card set-card danger-card">
+            <div class="card-head"><h3>Danger Zone</h3></div>
+            <div class="danger-row">
+              <div><b>Reset demo data</b><small>Restore sample workspace to its original state</small></div>
+              <button class="btn-outline" data-action="reset-demo"><i data-lucide="rotate-ccw"></i>Reset</button>
+            </div>
+            <div class="danger-row">
+              <div><b>Sign out</b><small>Clear the local session on this device</small></div>
+              <button class="btn-danger" data-action="logout"><i data-lucide="log-out"></i>Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /views -->
+
+    <!-- mobile bottom nav -->
+    <nav class="bottom-nav" aria-label="Quick navigation">
+      <a href="#/dashboard" data-route="dashboard"><i data-lucide="layout-dashboard"></i><span>Home</span></a>
+      <a href="#/attendance" data-route="attendance"><i data-lucide="fingerprint"></i><span>Attend</span></a>
+      <a href="#/leaves" data-route="leaves"><i data-lucide="plane"></i><span>Leaves</span></a>
+      <a href="#/directory" data-route="directory"><i data-lucide="users"></i><span>Team</span></a>
+      <a href="#/profile" data-route="profile"><i data-lucide="user-round"></i><span>Profile</span></a>
+    </nav>
+  </main>
+</div><!-- /app -->
+
+<!-- ============ NOTIFICATIONS DRAWER ============ -->
+<div class="drawer-wrap" id="notifDrawer" aria-hidden="true">
+  <div class="drawer-overlay" data-action="close-drawers"></div>
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h3><i data-lucide="bell"></i> Notifications</h3>
+      <div>
+        <button class="link-btn" data-action="notif-read-all">Mark all read</button>
+        <button class="icon-btn sm" data-action="close-drawers" aria-label="Close"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="chip-row pad">
+      <button class="chip active" data-nfilter="all">All</button>
+      <button class="chip" data-nfilter="unread">Unread</button>
+    </div>
+    <div class="drawer-list" id="notifList"></div>
+  </aside>
+</div>
+
+<!-- ============ MESSAGES DRAWER ============ -->
+<div class="drawer-wrap" id="msgDrawer" aria-hidden="true">
+  <div class="drawer-overlay" data-action="close-drawers"></div>
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h3><i data-lucide="mail"></i> Messages</h3>
+      <button class="icon-btn sm" data-action="close-drawers" aria-label="Close"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer-list" id="msgList"></div>
+  </aside>
+</div>
+
+<!-- ============ APPLY LEAVE MODAL ============ -->
+<div class="modal-wrap" id="leaveModal" aria-hidden="true">
+  <div class="modal-overlay" data-action="close-modal"></div>
+  <div class="modal" role="dialog" aria-label="Apply for leave">
+    <div class="modal-head">
+      <div><h3>Apply for Leave</h3><p>Pick the range — we'll compute the days.</p></div>
+      <button class="icon-btn sm" data-action="close-modal" aria-label="Close"><i data-lucide="x"></i></button>
+    </div>
+    <form id="leaveForm" novalidate>
+      <div class="field"><label for="leaveType">Leave type <em>*</em></label>
+        <select id="leaveType" required>
+          <option value="Casual">Casual</option>
+          <option value="Sick">Sick</option>
+          <option value="Earned">Earned</option>
+          <option value="Unpaid">Unpaid</option>
+        </select><small class="err"></small>
+      </div>
+      <div class="field-2col">
+        <div class="field"><label for="leaveStart">From <em>*</em></label><input type="date" id="leaveStart" required><small class="err"></small></div>
+        <div class="field"><label for="leaveEnd">To <em>*</em></label><input type="date" id="leaveEnd" required><small class="err"></small></div>
+      </div>
+      <div class="leave-days-pill"><i data-lucide="calendar-clock"></i><span id="leaveDays">1 day</span></div>
+      <div class="field"><label for="leaveReason">Reason</label><textarea id="leaveReason" rows="3" placeholder="Optional — anything your manager should know"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-outline" data-action="close-modal">Cancel</button>
+        <button type="submit" class="btn-primary" id="leaveSubmitBtn"><span class="spinner"></span><span id="leaveSubmitLabel">Submit Request</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ EMPLOYEE DETAIL MODAL ============ -->
+<div class="modal-wrap" id="empModal" aria-hidden="true">
+  <div class="modal-overlay" data-action="close-modal"></div>
+  <div class="modal" role="dialog" aria-label="Employee details">
+    <div class="modal-head">
+      <div><h3>Employee</h3><p>Directory details</p></div>
+      <button class="icon-btn sm" data-action="close-modal" aria-label="Close"><i data-lucide="x"></i></button>
+    </div>
+    <div class="emp-body" id="empModalBody"></div>
+  </div>
+</div>
+
+<!-- ============ CONFIRM MODAL ============ -->
+<div class="modal-wrap" id="confirmModal" aria-hidden="true">
+  <div class="modal-overlay" data-action="close-modal"></div>
+  <div class="modal modal-sm" role="alertdialog" aria-label="Confirm">
+    <div class="modal-head"><div><h3 id="confirmTitle">Are you sure?</h3><p id="confirmMsg">This action cannot be undone.</p></div></div>
+    <div class="modal-actions">
+      <button class="btn-outline" data-action="close-modal">Cancel</button>
+      <button class="btn-danger" id="confirmOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script>
+    /* progressive enhancement + reveal on view switch */
+    document.documentElement.classList.add('js');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="hrms.js"></script>
+</body>
+</html>

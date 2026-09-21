@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0D6EFD">
+<title>Sign In · HRiMS</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D6EFD'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='700' fill='white' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<a class="skip-link" href="#loginForm">Skip to login form</a>
+
+<div class="login-wrap">
+
+    <!-- ============ BRAND PANEL ============ -->
+    <aside class="login-hero">
+
+        <div class="hero-brand">
+            <span class="brand-mark"><i data-lucide="fingerprint"></i></span>
+            <span class="brand-name">HR<i>i</i>MS</span>
+        </div>
+
+        <div class="hero-copy">
+            <h1>Your workday,<br><span class="grad-text">beautifully organized.</span></h1>
+            <p>Attendance, leaves, announcements and payroll — one clean dashboard for your whole team.</p>
+
+            <ul class="hero-points">
+                <li>
+                    <span class="point-chip c-green"><i data-lucide="fingerprint"></i></span>
+                    <div><b>One-tap attendance</b><small>Punch in and out, track hours live.</small></div>
+                </li>
+                <li>
+                    <span class="point-chip c-purple"><i data-lucide="plane"></i></span>
+                    <div><b>Leave balance at a glance</b><small>Requests and approvals in real time.</small></div>
+                </li>
+                <li>
+                    <span class="point-chip c-orange"><i data-lucide="megaphone"></i></span>
+                    <div><b>Never miss an update</b><small>Company news and holidays, pinned.</small></div>
+                </li>
+            </ul>
+        </div>
+
+        <p class="hero-foot">Trusted by teams who hate paperwork.</p>
+
+    </aside>
+
+    <!-- ============ FORM PANEL ============ -->
+    <main class="login-panel">
+
+        <div class="mobile-brand reveal">
+            <span class="brand-mark"><i data-lucide="fingerprint"></i></span>
+            <span class="brand-name">HR<i>i</i>MS</span>
+        </div>
+
+        <form class="login-card reveal" id="loginForm" novalidate style="--d:.08s">
+
+            <div class="login-head">
+                <h2>Welcome back</h2>
+                <p>Sign in to continue to your dashboard.</p>
+            </div>
+
+            <div class="field">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" autocomplete="username"
+                       placeholder="you@company.com" autofocus>
+                <small class="field-err">Enter a valid email address.</small>
+            </div>
+
+            <div class="field">
+                <label for="loginPassword">Password</label>
+                <div class="pwd-wrap">
+                    <input type="password" id="loginPassword" autocomplete="current-password"
+                           placeholder="••••••••" minlength="4">
+                    <button type="button" class="pwd-toggle" id="togglePwd" aria-label="Show password">
+                        <i data-lucide="eye"></i>
+                    </button>
+                </div>
+                <small class="field-err">Password must be at least 4 characters.</small>
+            </div>
+
+            <div class="login-row">
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <span>Remember me</span>
+                </label>
+                <a class="forgot" id="forgotLink">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login" id="loginBtn">
+                <span class="spinner"></span>
+                <i data-lucide="log-in"></i>
+                <span id="loginBtnLabel">Sign In</span>
+            </button>
+
+            <div class="divider"><span>or</span></div>
+
+            <button type="button" class="btn btn-ghost btn-login" id="demoBtn">
+                <i data-lucide="zap"></i>
+                <span>Enter Demo Mode</span>
+            </button>
+
+            <p class="login-foot">
+                New to the team?
+                <a href="profile-setup.html">Complete your profile first</a>
+            </p>
+
+        </form>
+
+        <p class="legal reveal" style="--d:.16s">
+            Protected by your organisation's HR policies.
+            By continuing you agree to them.
+        </p>
+
+    </main>
+
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script>
+if (window.lucide) lucide.createIcons();
+document.documentElement.classList.add('js');
+
+/* ---------- Scroll reveal ---------- */
+(function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('in-view'); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    items.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="login.js"></script>
+
+</body>
+</html>
